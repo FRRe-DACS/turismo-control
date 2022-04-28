@@ -2,7 +2,7 @@ SERVER_OUT=bin/turismo
 BANNER=banner.txt
 BANNER_OUT=bin/banner.txt
 PKG := "github.com/FRRe-DACS/turismo-control"
-DOCKER_TAG=frredacs/turismo-control:1.0
+DOCKER_TAG=frredacs/turismo-control:1.1
 
 .PHONY: docker
 
