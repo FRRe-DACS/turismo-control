@@ -41,6 +41,20 @@ type operacion_request struct {
 }
 
 func createOperacion(w http.ResponseWriter, r *http.Request) {
+	accept := r.Header.Get("accept")
+	if "application/json" != accept {
+		log.Print("Accept no válido: ", accept)
+		w.WriteHeader(http.StatusNotAcceptable)
+		return
+	}
+
+	contentType := r.Header.Get("content-type")
+	if "application/json" != contentType {
+		log.Print("Content-type no válido: ", contentType)
+		w.WriteHeader(http.StatusUnsupportedMediaType)
+		return
+	}
+
 	var operacionReq operacion_request
 	reqBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
