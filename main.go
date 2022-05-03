@@ -61,29 +61,37 @@ func createOperacion(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Por favor ingrese bien los datos de la operación")
 	}
 
-	json.Unmarshal(reqBody, &operacionReq)
-
-	log.Print("Creando Operacion: ", operacionReq)
-	enableCors(&w)
-
 	var randFloat32 = rand.Float32()
-	var approbado bool = (randFloat32 > 0.5)
+	var functiona bool = (randFloat32 > 0.3)
 
-	var newOperacion = operacion{
-		ID:            len(operaciones),
-		CUIT:          operacionReq.CUIT,
-		FechaCreacion: time.Now(),
-		FechaInicio:   operacionReq.FechaInicio,
-		FechaFin:      operacionReq.FechaFin,
-		Precio:        operacionReq.Precio,
-		Aprobada:      approbado,
+	if functiona {
+		json.Unmarshal(reqBody, &operacionReq)
+
+		log.Print("Creando Operacion: ", operacionReq)
+		enableCors(&w)
+
+		randFloat32 = rand.Float32()
+		var approbado bool = (randFloat32 > 0.5)
+
+		var newOperacion = operacion{
+			ID:            len(operaciones),
+			CUIT:          operacionReq.CUIT,
+			FechaCreacion: time.Now(),
+			FechaInicio:   operacionReq.FechaInicio,
+			FechaFin:      operacionReq.FechaFin,
+			Precio:        operacionReq.Precio,
+			Aprobada:      approbado,
+		}
+
+		operaciones = append(operaciones, newOperacion)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusCreated)
+
+		json.NewEncoder(w).Encode(newOperacion)
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
-	operaciones = append(operaciones, newOperacion)
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-
-	json.NewEncoder(w).Encode(newOperacion)
 }
 
 func main() {
