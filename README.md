@@ -15,7 +15,7 @@ La imagen se publica en [Docker Hub](https://hub.docker.com/repository/docker/fr
 ## Iniciar el Servicio
 
 ```bash
-docker run -d -p 8080:8080 frredacs/turismo-control:1.0
+docker run -d -p 8080:8080 frredacs/turismo-control:1.2
 ```
 
 ## Llamar al servicio
